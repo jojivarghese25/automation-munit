@@ -33,6 +33,7 @@ pipeline {
                     }
                 }
             }
+        }
    stage('Deploy') {
       steps {
         sh 'mvn -f apiops-anypoint-bdd-sapi/pom.xml package'
