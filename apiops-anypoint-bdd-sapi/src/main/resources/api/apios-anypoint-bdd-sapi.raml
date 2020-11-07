@@ -1,0 +1,35 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/b93a3056-92a0-4e08-a2ee-9091c5e465ba/ # 
+title: apios-anypoint-bdd-sapi
+version: v1
+traits:
+  responses: !include resource/resource.traits/errortrait.raml
+types: 
+  user: !include resource/resource.dataType/userdataType.raml
+  subscription: !include resource/resource.dataType/subscriptiondataType.raml
+/users:
+  /registerUser:
+    description: To get customer information
+               
+    post:
+        description: To register customer information to database
+        body:
+          application/json:
+            type: user
+            example: !include resource/resource.example/user-example.raml
+        responses:
+          201:
+            body:
+              application/json:
+                example: Successfully created the user
+        is: [responses]
+    /subscription:
+      get:
+        
+        responses:
+          200:
+            body:
+              application/json:
+                example:
+                  message: !include /resource/resource.example/subscription-arr-example.raml
+        is: [responses]

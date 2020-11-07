@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="083326a9-88c1-4489-aad3-93f77b60e252" >
+		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" />
+	</db:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="9734c05e-fc18-421f-b8a2-5a44678a909b" file="config.yaml"/>
+	<flow name="customer-register-flow" doc:id="3ff99c98-39ee-4c9f-8b36-c38aaa468c11" >
+		<logger level="INFO" doc:name="Logger" doc:id="929b7949-11e5-4b0b-a84d-47b55a78cb9c" message='"started customer register flow"'/>
+		<db:insert doc:name="Insert" doc:id="4a02b1d5-2c97-4936-9e92-e1e2d0a7a04d" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO user (USER_ID, EMAIL_ID, FIRST_NAME, LAST_NAME, PHONE_NUMBER)
+ 
+VALUES (:userId, :emailId, :firstName, :lastName, :phoneNo );
+
+
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"userId": payload.userId,
+	"emailId": payload.emailId,
+	"firstName": payload.firstName,
+	"lastName": payload.lastName,
+	"phoneNo": payload.phoneNumber,
+		}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Transform Message" doc:id="e81b71b2-06c1-4437-ade7-ca2003311f7e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message:"Data inserted successfully"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="0b8237e3-f575-4fa5-be6b-48ca3fa1c232" message="#[payload]"/>
+	</flow>
+	<flow name="user-subscription-flow" doc:id="ece6466e-c8b5-4dc4-9ecc-76afd542e92f" >
+		<db:select doc:name="Select" doc:id="887ae723-ead7-44d0-b5a0-93727ebec254" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM train.subscription where STATUS_TYPE_ID=1;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="1aa4ad8f-6af1-4278-85f3-f6700f6ca448" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
+	
