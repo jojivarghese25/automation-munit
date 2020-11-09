@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
     <http:listener-config name="apios-anypoint-bdd-sapi-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="${http.port}" />
+        <http:listener-connection host="${http.host}" port="${http.port}" />
     </http:listener-config>
     <apikit:config name="apios-anypoint-bdd-sapi-config" api="resource::b3518803-262d-42ed-8a30-63afd2e3c95f:apios-anypoint-bdd-sapi:1.0.0:raml:zip:apios-anypoint-bdd-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="apios-anypoint-bdd-sapi-main">
