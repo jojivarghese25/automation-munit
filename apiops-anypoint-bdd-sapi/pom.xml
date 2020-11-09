@@ -16,16 +16,18 @@
 		<app.runtime>4.3.0-20200824</app.runtime>
 		<mule.maven.plugin.version>3.3.5</mule.maven.plugin.version>
 	<munit.version>2.2.5</munit.version>
+	    <testfile>runner.TestRunner.java</testfile>
     </properties>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.0.0</version>
-				
-				 <configuration>
+				<groupId>org.mule.tools.maven</groupId>
+   				<artifactId>mule-maven-plugin</artifactId>
+   				<version>3.3.5</version>
+   				<extensions>true</extensions>
+
+			   <configuration>
  		     		<cloudHubDeployment>
         			 	<username>${username}</username>
          				<password>${password}</password>         
@@ -39,7 +41,11 @@
    				<classifier>mule-application</classifier>
                 </configuration>
 			</plugin>
-			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
@@ -61,13 +67,36 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.19.1</version>
 				<configuration>
-					<forkCount>1</forkCount>
-					<includes>
-						<include>testing.TestRunner.java</include>
-					</includes>
+					<excludes>
+      <exclude>${testfile}</exclude>
+    </excludes>
 				</configuration>
-			</plugin>
-		<plugin>
+			</plugin>	
+        <plugin>
+                <groupId>com.mulesoft.munit.tools</groupId>
+                <artifactId>munit-maven-plugin</artifactId>
+                <version>${munit.version}</version>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                            <goal>coverage-report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <coverage>
+                        <runCoverage>true</runCoverage>
+                        <formats>
+                            <format>html</format>
+                            <format>json</format>
+                        </formats>
+                    </coverage>
+                </configuration>
+            </plugin>
+        <plugin>
                 <groupId>com.mulesoft.munit.tools</groupId>
                 <artifactId>munit-maven-plugin</artifactId>
                 <version>${munit.version}</version>
@@ -205,13 +234,7 @@
             <version>1.2.0</version>
             <classifier>mule-plugin</classifier>
         </dependency>
-		<dependency>
-            <groupId>b3518803-262d-42ed-8a30-63afd2e3c95f</groupId>
-            <artifactId>apios-anypoint-bdd-sapi</artifactId>
-            <version>1.0.0</version>
-            <classifier>raml</classifier>
-            <type>zip</type>
-        </dependency>
+		
     	<dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-apikit-module</artifactId>
@@ -228,6 +251,20 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.22</version>
+        </dependency>
+    	
+    	<dependency>
+            <groupId>com.mulesoft.munit</groupId>
+            <artifactId>munit-runner</artifactId>
+            <version>2.2.5</version>
+            <classifier>mule-plugin</classifier>
+            <scope>test</scope>
+        </dependency>	<dependency>
+            <groupId>com.mulesoft.munit</groupId>
+            <artifactId>munit-tools</artifactId>
+            <version>2.2.5</version>
+            <classifier>mule-plugin</classifier>
+            <scope>test</scope>
         </dependency>
     	<dependency>
             <groupId>com.mulesoft.munit</groupId>
@@ -272,3 +309,4 @@
 
 
 </project>
+    
