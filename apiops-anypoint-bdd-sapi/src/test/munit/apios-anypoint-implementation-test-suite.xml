@@ -59,7 +59,6 @@
 			<munit-tools:mock-when doc:name="Mock when" doc:id="9129c1af-ea68-4c17-a4dd-9fa2f08bf2f8" processor="db:select">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Select" attributeName="doc:name" />
-					<munit-tools:with-attribute whereValue="95317d93-e9d7-406f-be68-e20f84325505" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[output application/java --- readUrl('classpath://cucumberResources/synchronizeoutput.json')]" mediaType="application/java" />
