@@ -7,8 +7,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<configuration doc:name="Configuration" doc:id="0e6fa563-93cf-4bb0-8601-218d6d0e3822" defaultErrorHandler-ref="apios-anypoint-bdd-globalError_Handler" />
 	<error-handler name="apios-anypoint-bdd-globalError_Handler" doc:id="cb21ef72-43a2-4760-8210-34218a19b93b" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c9013092-3e5c-4c63-a9fe-4464df54a9ef" type="DB:BAD_SQL_SYNTAX">
-			<set-variable value="" doc:name="set httpstatus" doc:id="2b0b02f0-f435-4c1d-966f-abf9f1e6a65d" variableName="httpstatus"/>
-			<flow-ref doc:name="Flow Reference" doc:id="589177ab-476e-4f00-a323-7e9f234f28af" name="apios-anypoint-bdd-globalFlow"/>
+			<set-variable value="404" doc:name="set httpstatus" doc:id="2b0b02f0-f435-4c1d-966f-abf9f1e6a65d" variableName="httpstatus"/>
+			<flow-ref doc:name="apios-anypoint-bdd-globalFlow" doc:id="589177ab-476e-4f00-a323-7e9f234f28af" name="apios-anypoint-bdd-globalFlow"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="40a986b2-20ab-470c-b744-1c02ba738573" type="ANY">
+			<set-variable value="500" doc:name="Set Variable" doc:id="dcd09544-1d97-434f-b3e8-b67eb88e5b0f" variableName="httpstatus"/>
+			<flow-ref doc:name="apios-anypoint-bdd-globalFlow" doc:id="50315206-4be4-458f-8217-1d5af184f1e6" name="apios-anypoint-bdd-globalFlow"/>
 		</on-error-propagate>
 	</error-handler>
 	<flow name="apios-anypoint-bdd-globalFlow" doc:id="2f3161ae-e643-41a3-94de-dc5973bf0f9c" >

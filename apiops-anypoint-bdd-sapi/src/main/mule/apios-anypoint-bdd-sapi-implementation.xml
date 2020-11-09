@@ -51,5 +51,18 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
+	<flow name="synchronize-users-implementation-flow" doc:id="3d545e59-bc86-44d2-83a8-83ca4918d536" >
+		<db:select doc:name="Select" doc:id="4313bb08-6c2f-44c9-8240-1e8d8265bae9" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * from USER]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="afa4da2b-d209-4181-902d-a5cfb726fe16" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
 </mule>
 	
